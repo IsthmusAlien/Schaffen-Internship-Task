@@ -326,11 +326,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             activeTrackColor: Colors.grey.withOpacity(0.2),
                             inactiveTrackColor: Colors.grey.withOpacity(0.2),
                             onChanged: (value) => setState(() => selected = value),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                          )
+                        )
+                      ]
+                    )
+                  )
                 ),
                 const SliverToBoxAdapter(child: SizedBox(height: 10.0)),
                 SliverToBoxAdapter(
@@ -362,7 +362,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             )
                           ]
                       )
-                  ),
+                  )
                 ),
                 const SliverToBoxAdapter(child: SizedBox(height: 4.0)),
                 SliverToBoxAdapter(
@@ -394,7 +394,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             )
                           ]
                       )
-                  ),
+                  )
                 ),
                 const SliverToBoxAdapter(child: SizedBox(height: 4.0)),
                 SliverToBoxAdapter(
@@ -426,7 +426,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             )
                           ]
                       )
-                  ),
+                  )
                 ),
                 const SliverToBoxAdapter(child: SizedBox(height: 4.0)),
                 SliverToBoxAdapter(
@@ -458,7 +458,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             )
                           ]
                       )
-                  ),
+                  )
                 ),
                 SliverToBoxAdapter(
                   child: AnimatedContainer(
@@ -475,7 +475,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       show: !search,
                       child: searchPassive(),
                       hiddenChild: searchActive(),
-                    ),
+                    )
                   )
                 ),
                 SliverList(
@@ -735,6 +735,7 @@ class _MyHomePageState extends State<MyHomePage> {
         trailing: GestureDetector(
             onTap: () {if(mounted) {
               setState(() => search =! search);
+              scrollController.animateTo(760.0, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
             }},
             child: Container(
               width: 35,
@@ -799,6 +800,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextButton(
                   onPressed: () {if(mounted) {
                     setState(() => search =! search);
+                    //scrollController.animateTo(231.0, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                   }},
                   child: const Text(
                     'Cancel',
