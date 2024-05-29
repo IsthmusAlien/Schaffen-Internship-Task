@@ -461,13 +461,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: Container(
-                        color: Colors.transparent,
-                        child: search ? searchActive() : searchPassive(),
-                      )
-                  ),
+                  child: AnimatedContainer(
+                    color: Colors.transparent,
+                    alignment: !search ? Alignment.center : Alignment.centerRight,
+                    duration: const Duration(milliseconds: 500),
+                      padding: EdgeInsets.only(
+                        top: 3.0,
+                        bottom: 0.0,
+                        left: !search ? 8 : 8,
+                        right: !search ? 2 : 6,
+                      ),
+                    child: CrossFade(
+                      show: !search,
+                      child: searchPassive(),
+                      hiddenChild: searchActive(),
+                    ),
+                  )
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -475,7 +484,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return ListTile(
                         leading: const CircleAvatar(
                           backgroundImage: AssetImage('images/image 110.png'),
-                          radius: 25.0,
+                          radius: 28.0,
                         ),
                         title: const Text(
                           'Yashika',
@@ -713,47 +722,45 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget searchPassive() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: ListTile(
-          title: const Text(
-              'Members',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18.0
-              )
-          ),
-          trailing: GestureDetector(
-              onTap: () {if(mounted) {
-                setState(() => search =! search);
-              }},
+    return ListTile(
+        title: const Text(
+            'Members',
+            style: TextStyle(
+                height: 0.2,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 18.0
+            )
+        ),
+        trailing: GestureDetector(
+            onTap: () {if(mounted) {
+              setState(() => search =! search);
+            }},
+            child: Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey.withOpacity(0.2)
+              ),
+              alignment: Alignment.center,
               child: Container(
-                width: 35,
-                height: 35,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey.withOpacity(0.2)
-                ),
-                alignment: Alignment.center,
-                child: Container(
-                    width: 27,
-                    height: 27,
-                  color: Colors.transparent,
-                  child: const ImageIcon(
-                    AssetImage("images/search.png"),
-                    color: Colors.black
-                  )
+                  width: 27,
+                  height: 27,
+                color: Colors.transparent,
+                child: const ImageIcon(
+                  AssetImage("images/search.png"),
+                  color: Colors.black
                 )
               )
-          )
-      ),
+            )
+        )
     );
   }
 
   Widget searchActive() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -805,7 +812,41 @@ class _MyHomePageState extends State<MyHomePage> {
               )
           )
         ]
-      ),
+      )
     );
   }
+}
+
+class CrossFade extends StatelessWidget {
+  final Widget child;
+  final Widget? hiddenChild;
+  final bool show;
+  final EdgeInsets? padding;
+  final bool useCenter;
+
+  const CrossFade({
+    Key? key,
+    required this.child,
+    this.hiddenChild,
+    this.show = false,
+    this.padding,
+    this.useCenter = true,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: padding,
+        child: AnimatedCrossFade(
+          firstChild: hiddenChild ?? Container(),
+          secondChild: childX(),
+          duration: const Duration(milliseconds: 500),
+          crossFadeState: show ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        ));
+  }
+
+  Widget childX() {
+    if (useCenter)return Center(child: child);
+    return child;
+  }
+
 }
